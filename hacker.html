@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>黑客模拟器</title>
+    <style>
+        body {
+            background: #000;
+            color: #0F0;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+            padding: 10px;
+        }
+        
+        #terminal {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .line {
+            margin: 2px 0;
+            white-space: pre-wrap;
+        }
+        
+        .cursor {
+            background: #0F0;
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const messages = [
+            "正在初始化系统...",
+            "正在极速接到主服务器...",
+            "正在破解安全协议...",
+            "访问权限: 已获取",
+            "正在下载数据...",
+            "正在扫描网络端口...",
+            "发现漏洞...",
+            "正在植入后门程序...",
+            "数据库入侵成功",
+            "正在清除痕迹...",
+            "恭喜你被黑了"
+        ];
+        
+        let messageIndex = 0;
+        
+        function addLine(text) {
+            const line = document.createElement('div');
+            line.className = 'line';
+            line.textContent = '> ' + text;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        function typeWriter() {
+            if (messageIndex < messages.length) {
+                addLine(messages[messageIndex]);
+                messageIndex++;
+                
+                // 随机延迟时间
+                const delay = Math.random() * 1000 + 500;
+                setTimeout(typeWriter, delay);
+            }
+        }
+        
+        // 添加闪烁的光标
+        const cursor = document.createElement('div');
+        cursor.className = 'cursor';
+        terminal.appendChild(cursor);
+        
+        // 开始动画
+        setTimeout(typeWriter, 1000);
+        
+        // 添加键盘输入响应
+        document.addEventListener('keypress', function(e) {
+            addLine(String.fromCharCode(e.keyCode));
+        });
+    </script>
+</body>
+</html> 
